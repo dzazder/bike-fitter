@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BikeFitter.Api.Context;
 using BikeFitter.Api.Models;
+using BikeFitter.Api.ApiModel;
 
 namespace BikeFitter.Api.Controllers
 {
@@ -53,8 +54,9 @@ namespace BikeFitter.Api.Controllers
         // PUT: api/Bikes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBike(int id, Bike bike)
+        public async Task<IActionResult> PutBike(int id, ApiBike apiBike)
         {
+            Bike bike = CreateBike(apiBike);
             if (id != bike.Id)
             {
                 return BadRequest();
@@ -84,7 +86,7 @@ namespace BikeFitter.Api.Controllers
         // POST: api/Bikes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Bike>> PostBike(ApiModel.ApiBike apiBike)
+        public async Task<ActionResult<Bike>> PostBike(ApiBike apiBike)
         {
             if (_context.Bikes == null)
             {
