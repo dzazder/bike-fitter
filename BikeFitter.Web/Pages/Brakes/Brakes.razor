@@ -12,13 +12,14 @@
 }
 else
 {
-    <table>
+    <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Url</th>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Url</th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -29,10 +30,13 @@ else
                     <td>@b.Name</td>
                     <td>@b.Price</td>
                     <td>@b.Uri</td>
+                    <td><a href="/BrakeDetails/@b.Id">Details</a></td>
                 </tr>
             }
         </tbody>
     </table>
+
+    <a href="/brakes/add" role="button" class="btn btn-primary">Add new</a>
 }
 
 @code {
