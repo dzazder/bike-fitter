@@ -24,5 +24,15 @@ namespace BikeFitter.Web.Services
             
             return response;
         }
+
+        public async Task<HttpResponseMessage> PostJson<T>(HttpMethod httpMethod, string address, T model)
+        {
+            var apiHost = _config["BikeFitterApiHost"];
+
+            HttpClient client = new HttpClient();
+            var response = await client.PostAsJsonAsync($"{apiHost}{address}", model);
+
+            return response;
+        }
     }
 }

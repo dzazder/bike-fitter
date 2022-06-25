@@ -1,23 +1,60 @@
 ﻿@page "/brakes/add"
+@using BikeFitter.Api.Models
+@using BikeFitter.Web.Routing
+@using BikeFitter.Web.Services
+@inject RequestService RequestService
+@inject Routes Routes
+@inject NavigationManager NavManager
 
 <h3>Add a brake</h3>
 
-<form>
+<EditForm Model="@brake" OnValidSubmit="@HandleValidSubmit">
     <div class="mb-3">
-        <label for="txtBrakeName">Brake name</label>
-        <input type="text" class="form-control" id="txtBrakeName" />
+        <label>
+            Brake name
+            <InputText class="form-control" @bind-Value="brake.Name"></InputText>
+        </label>
     </div>
     <div class="mb-3">
-        <label for="txtBrakePrice">Brake price</label>
-        <input type="text" class="form-control" id="txtBrakePrice" />
+        <label>
+            Brake price
+            <InputNumber class="form-control" @bind-Value="brake.Price"></InputNumber>
+        </label>
     </div>
     <div class="mb-3">
-        <label for="txtBrakeUri">Brake uri</label>
-        <input type="text" class="form-control" id="txtBrakeUri" />
+        <label>
+            Uri
+            <InputText class="form-control" @bind-Value="brake.Uri"></InputText>
+        </label>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+    <div class="alert alert-danger" role="alert" hidden="@HideErrorMessage">
+        Brakes added failed :(
+    </div>
+    <button type="submit" class="btn btn-primary">Add a brake</button>
+    <a class="btn btn-light" href="/brakes">Back</a>
+
+</EditForm>
 
 @code {
+    private Brake brake = new Brake();
+    private bool HideErrorMessage { get; set; } = true;
 
+    private async void HandleValidSubmit(EditContext editContext)
+    {
+        var response = await RequestService.PostJson<Brake>(HttpMethod.Post, Routes.Brakes, (Brake)editContext.Model);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            ShowErrorMessage();
+        }
+        else
+        {
+            NavManager.NavigateTo("/brakes");
+        }
+    }
+
+    private void ShowErrorMessage()
+    {
+        HideErrorMessage = false;
+    }
 }

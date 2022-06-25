@@ -1,10 +1,8 @@
 ﻿@page "/brakes"
 @using BikeFitter.Api.Models
-@using System.Text.Json
 @using BikeFitter.Web.Routing
 @using BikeFitter.Web.Services
 @using Newtonsoft.Json
-@inject IHttpClientFactory ClientFactory
 @inject RequestService RequestService
 @inject Routes Routes
 
@@ -52,16 +50,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        //var request = new HttpRequestMessage(HttpMethod.Get,
-        //    "http://localhost/BikeFitterApi/api/Brakes");
-        //request.Headers.Add("Accept", "application/json");
-        ////request.Headers.Add("User-Agent", "HttpClientFactory-Sample");
-
-        //var client = ClientFactory.CreateClient();
-
-        //var response = await client.SendAsync(request);
-
-        var response = await RequestService.SendRequest(HttpMethod.Get, Routes.GetBrakes);
+        var response = await RequestService.SendRequest(HttpMethod.Get, Routes.Brakes);
 
         if (response.IsSuccessStatusCode)
         {

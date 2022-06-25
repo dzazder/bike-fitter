@@ -2,7 +2,6 @@
 {
     public class Routes
     {
-        public static string GetBrakes = "brakes";
-        public static string AddBrake = "brakes/add";
+        public static string Brakes = "brakes";
     }
 }
