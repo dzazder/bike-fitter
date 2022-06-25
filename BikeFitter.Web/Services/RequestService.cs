@@ -14,9 +14,9 @@ namespace BikeFitter.Web.Services
             _config = config;
         }
 
-        public async Task<HttpResponseMessage> SendRequest(HttpMethod httpMethod, string address) {
+        public async Task<HttpResponseMessage> Get(string address) {
             var apiHost = _config["BikeFitterApiHost"];
-            var request = new HttpRequestMessage(httpMethod, $"{apiHost}{address}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{apiHost}{address}");
             request.Headers.Add("Accept", "application/json");
 
             HttpClient client = new HttpClient();
@@ -25,12 +25,32 @@ namespace BikeFitter.Web.Services
             return response;
         }
 
-        public async Task<HttpResponseMessage> PostJson<T>(HttpMethod httpMethod, string address, T model)
+        public async Task<HttpResponseMessage> PostJson<T>(string address, T model)
         {
             var apiHost = _config["BikeFitterApiHost"];
 
             HttpClient client = new HttpClient();
             var response = await client.PostAsJsonAsync($"{apiHost}{address}", model);
+
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> PutJson<T>(string address, T model)
+        {
+            var apiHost = _config["BikeFitterApiHost"];
+
+            HttpClient client = new HttpClient();
+            var response = await client.PutAsJsonAsync($"{apiHost}{address}", model);
+
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> Delete(string address)
+        {
+            var apiHost = _config["BikeFitterApiHost"];
+
+            HttpClient client = new HttpClient();
+            var response = await client.DeleteAsync($"{apiHost}{address}");
 
             return response;
         }

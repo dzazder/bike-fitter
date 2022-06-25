@@ -1,14 +1,12 @@
 ﻿@page "/brakes"
 @using BikeFitter.Api.Models
-@using BikeFitter.Web.Routing
 @using BikeFitter.Web.Services
-@using Newtonsoft.Json
-@inject RequestService RequestService
-@inject Routes Routes
+@inject BrakeService BrakeService
+@inject NavigationManager NavManager
 
 <h3>Brakes</h3>
 
-@if (!shouldRender || getBrakesError)
+@if (!shouldRender || getListError)
 {
     <p>Unable to get brakes from Api. Please try again later.</p>
 }
@@ -32,37 +30,56 @@ else
                     <td>@b.Name</td>
                     <td>@b.Price</td>
                     <td>@b.Uri</td>
-                    <td><a href="/BrakeDetails/@b.Id">Details</a></td>
+                    <td>
+                        <a class="btn btn-primary" href="/brakes/edit/@b.Id">Edit</a>
+                        <button class="btn btn-danger" @onclick="() => Delete(b.Id)">Delete</button>
+                    </td>
+
                 </tr>
             }
         </tbody>
     </table>
+
+    <div class="alert alert-danger" role="alert" hidden="@HideDeleteErrorMessage">
+        Deleting failed :(
+    </div>
 
     <a href="/brakes/add" role="button" class="btn btn-primary">Add new</a>
 }
 
 @code {
     private IEnumerable<Brake> brakes = Array.Empty<Brake>();
-    private bool getBrakesError;
+    private bool getListError;
+    private bool HideDeleteErrorMessage = true;
     private bool shouldRender = false;
 
     protected override bool ShouldRender() => shouldRender;
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await RequestService.SendRequest(HttpMethod.Get, Routes.Brakes);
-
-        if (response.IsSuccessStatusCode)
+        try
         {
-            string s = await response.Content.ReadAsStringAsync();
-            brakes = JsonConvert.DeserializeObject<IEnumerable<Brake>>(s);
+            brakes = await BrakeService.GetBrakes();
         }
-        else
+        catch (Exception ex)
         {
-            getBrakesError = true;
+            getListError = true;
         }
 
         shouldRender = true;
+    }
+
+    private async void Delete(int id)
+    {
+        try
+        {
+            await BrakeService.DeleteBrake(id);
+            NavManager.NavigateTo(NavManager.Uri, true);
+        }
+        catch (Exception ex)
+        {
+            HideDeleteErrorMessage = false;
+        }
     }
 }
 

@@ -1,10 +1,10 @@
-﻿@page "/brakes/add"
+﻿@page "/brakes/edit/{Id}"
 @using BikeFitter.Api.Models
 @using BikeFitter.Web.Services
 @inject BrakeService BrakeService
 @inject NavigationManager NavManager
 
-<h3>Add a brake</h3>
+<h3>Edit brake</h3>
 
 <EditForm Model="@brake" OnValidSubmit="@HandleValidSubmit">
     <div class="mb-3">
@@ -26,28 +26,32 @@
         </label>
     </div>
     <div class="alert alert-danger" role="alert" hidden="@HideErrorMessage">
-        Adding failed :(
+        Edit failed :(
     </div>
-    <button type="submit" class="btn btn-primary">Add</button>
+    <button type="submit" class="btn btn-primary">Edit</button>
     <a class="btn btn-light" href="/brakes">Back</a>
 
 </EditForm>
 
 @code {
+    [Parameter]
+    public string Id { get; set; }
     private Brake brake = new Brake();
     private bool HideErrorMessage { get; set; } = true;
+    private bool getBrakeError;
 
     private async void HandleValidSubmit(EditContext editContext)
     {
         try
         {
-            var response = await BrakeService.AddBrake((Brake)editContext.Model);
+            var response = await BrakeService.EditBrake((Brake)editContext.Model);
+
             if (response)
             {
                 NavManager.NavigateTo("/brakes");
             }
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
 
         }
@@ -58,5 +62,18 @@
     private void ShowErrorMessage()
     {
         HideErrorMessage = false;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await BrakeService.GetBrake(int.Parse(Id));
+            brake = response;
+        }
+        catch (Exception e)
+        {
+            getBrakeError = true;
+        }
     }
 }

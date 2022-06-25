@@ -13,6 +13,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddSingleton<RequestService>();
 builder.Services.AddSingleton<Routes>();
+builder.Services.AddSingleton<BrakeService>();
 
 var app = builder.Build();
 
