@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using BikeFitter.Web.Data;
+using BikeFitter.Web.Services;
+using BikeFitter.Web.Routing;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddSingleton<RequestService>();
+builder.Services.AddSingleton<Routes>();
 
 var app = builder.Build();
 
