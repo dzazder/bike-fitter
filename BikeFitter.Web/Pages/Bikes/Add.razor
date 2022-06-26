@@ -3,12 +3,33 @@
 @using BikeFitter.Api.Models
 @using BikeFitter.Web.Services
 @inject BikeService BikeService
+@inject BrakeService BrakeService
+@inject CassetteService CassetteService
+@inject CranksetService CranksetService
+@inject DerailleurService DerailleurService
+@inject ForkService ForkService
+@inject ManufacturerService ManufacturerService
+@inject RimService RimService
+@inject ShifterService ShifterService
+@inject StemService StemService
+@inject TireService TireService
 @inject NavigationManager NavManager
 
 <h3>Add a bike</h3>
 
 <EditForm Model="@bike" OnValidSubmit="@HandleValidSubmit">
-    <!-- TODO parts -->
+    <div class="mb-3">
+        <label>
+            Manufacturer
+            <InputSelect @bind-Value="bike.ManufacturerId" class="form-select">
+                <option selected>Choose...</option>
+                @foreach (var b in AllManufacturers)
+                {
+                    <option value="@b.Id">@b.Name</option>
+                }
+            </InputSelect>
+        </label>
+    </div>
     <div class="mb-3">
         <label>
             Bike name
@@ -33,6 +54,114 @@
             <InputNumber class="form-control" @bind-Value="bike.Weight"></InputNumber>
         </label>
     </div>
+    <div class="mb-3">
+        <label>
+            Brakes
+            <InputSelect @bind-Value="bike.BrakesId" class="form-select">
+                <option selected>Choose...</option>
+                @foreach (var b in AllBrakes)
+                {
+                    <option value="@b.Id">@b.Name</option>
+                }
+            </InputSelect>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Cassette
+            <InputSelect @bind-Value="bike.CassetteId" class="form-select">
+                <option selected>Choose...</option>
+                @foreach (var b in AllCassettes)
+                {
+                    <option value="@b.Id">@b.Name</option>
+                }
+            </InputSelect>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Crankset
+            <InputSelect @bind-Value="bike.CranksetId" class="form-select">
+                <option selected>Choose...</option>
+                @foreach (var b in AllCranksets)
+                {
+                    <option value="@b.Id">@b.Name</option>
+                }
+            </InputSelect>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Derailleur
+            <InputSelect @bind-Value="bike.DerailleurId" class="form-select">
+                <option selected>Choose...</option>
+                @foreach (var b in AllDerailleurs)
+                {
+                    <option value="@b.Id">@b.Name</option>
+                }
+            </InputSelect>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Fork
+            <InputSelect @bind-Value="bike.ForkId" class="form-select">
+                <option selected>Choose...</option>
+                @foreach (var b in AllForks)
+                {
+                    <option value="@b.Id">@b.Name</option>
+                }
+            </InputSelect>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Rims
+            <InputSelect @bind-Value="bike.RimsId" class="form-select">
+                <option selected>Choose...</option>
+                @foreach (var b in AllRims)
+                {
+                    <option value="@b.Id">@b.Name</option>
+                }
+            </InputSelect>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Shifter
+            <InputSelect @bind-Value="bike.ShifterId" class="form-select">
+                <option selected>Choose...</option>
+                @foreach (var b in AllShifters)
+                {
+                    <option value="@b.Id">@b.Name</option>
+                }
+            </InputSelect>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Stem
+            <InputSelect @bind-Value="bike.StemId" class="form-select">
+                <option selected>Choose...</option>
+                @foreach (var b in AllStems)
+                {
+                    <option value="@b.Id">@b.Name</option>
+                }
+            </InputSelect>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Tires
+            <InputSelect @bind-Value="bike.TiresId" class="form-select">
+                <option selected>Choose...</option>
+                @foreach (var b in AllTires)
+                {
+                    <option value="@b.Id">@b.Name</option>
+                }
+            </InputSelect>
+        </label>
+    </div>
     <div class="alert alert-danger" role="alert" hidden="@HideErrorMessage">
         Adding failed :(
     </div>
@@ -44,6 +173,30 @@
 @code {
     private ApiBike bike = new ApiBike();
     private bool HideErrorMessage { get; set; } = true;
+    private IEnumerable<Brake> AllBrakes { get; set; } = new List<Brake>();
+    private IEnumerable<Cassette> AllCassettes { get; set; } = new List<Cassette>();
+    private IEnumerable<Crankset> AllCranksets { get; set; } = new List<Crankset>();
+    private IEnumerable<Derailleur> AllDerailleurs { get; set; } = new List<Derailleur>();
+    private IEnumerable<Fork> AllForks { get; set; } = new List<Fork>();
+    private IEnumerable<Manufacturer> AllManufacturers { get; set; } = new List<Manufacturer>();
+    private IEnumerable<Rim> AllRims { get; set; } = new List<Rim>();
+    private IEnumerable<Shifter> AllShifters { get; set; } = new List<Shifter>();
+    private IEnumerable<Stem> AllStems { get; set; } = new List<Stem>();
+    private IEnumerable<Tire> AllTires { get; set; } = new List<Tire>();
+
+    protected async override Task OnInitializedAsync()
+    {
+        AllBrakes = await BrakeService.GetBrakes();
+        AllCassettes = await CassetteService.GetCassettes();
+        AllCranksets = await CranksetService.GetCranksets();
+        AllDerailleurs = await DerailleurService.GetDerailleurs();
+        AllForks = await ForkService.GetForks();
+        AllManufacturers = await ManufacturerService.GetManufacturers();
+        AllRims = await RimService.GetRims();
+        AllShifters = await ShifterService.GetShifters();
+        AllStems = await StemService.GetStems();
+        AllTires = await TireService.GetTires();
+    }
 
     private async void HandleValidSubmit(EditContext editContext)
     {

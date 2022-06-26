@@ -130,6 +130,7 @@ namespace BikeFitter.Api.Controllers
             {
                 Bike bike = new Bike
                 {
+                    Id = apiBike.Id,
                     ModelName = apiBike.ModelName,
                     Price = apiBike.Price,
                     Uri = apiBike.Uri,
