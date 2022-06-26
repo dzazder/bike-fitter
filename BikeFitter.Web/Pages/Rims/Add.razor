@@ -1,0 +1,62 @@
+﻿@page "/rims/add"
+@using BikeFitter.Api.Models
+@using BikeFitter.Web.Services
+@inject RimService RimService
+@inject NavigationManager NavManager
+
+<h3>Add a rim</h3>
+
+<EditForm Model="@rim" OnValidSubmit="@HandleValidSubmit">
+    <div class="mb-3">
+        <label>
+            Rim name
+            <InputText class="form-control" @bind-Value="rim.Name"></InputText>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Rim price
+            <InputNumber class="form-control" @bind-Value="rim.Price"></InputNumber>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Uri
+            <InputText class="form-control" @bind-Value="rim.Uri"></InputText>
+        </label>
+    </div>
+    <div class="alert alert-danger" role="alert" hidden="@HideErrorMessage">
+        Adding failed :(
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+    <a class="btn btn-light" href="/rims">Back</a>
+
+</EditForm>
+
+@code {
+    private Rim rim = new Rim();
+    private bool HideErrorMessage { get; set; } = true;
+
+    private async void HandleValidSubmit(EditContext editContext)
+    {
+        try
+        {
+            var response = await RimService.AddRim((Rim)editContext.Model);
+            if (response)
+            {
+                NavManager.NavigateTo("/rims");
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+        ShowErrorMessage();
+    }
+
+    private void ShowErrorMessage()
+    {
+        HideErrorMessage = false;
+    }
+}

@@ -1,0 +1,62 @@
+﻿@page "/stems/add"
+@using BikeFitter.Api.Models
+@using BikeFitter.Web.Services
+@inject StemService StemService
+@inject NavigationManager NavManager
+
+<h3>Add a stem</h3>
+
+<EditForm Model="@stem" OnValidSubmit="@HandleValidSubmit">
+    <div class="mb-3">
+        <label>
+            Stem name
+            <InputText class="form-control" @bind-Value="stem.Name"></InputText>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Stem price
+            <InputNumber class="form-control" @bind-Value="stem.Price"></InputNumber>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Uri
+            <InputText class="form-control" @bind-Value="stem.Uri"></InputText>
+        </label>
+    </div>
+    <div class="alert alert-danger" role="alert" hidden="@HideErrorMessage">
+        Adding failed :(
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+    <a class="btn btn-light" href="/stems">Back</a>
+
+</EditForm>
+
+@code {
+    private Stem stem = new Stem();
+    private bool HideErrorMessage { get; set; } = true;
+
+    private async void HandleValidSubmit(EditContext editContext)
+    {
+        try
+        {
+            var response = await StemService.AddStem((Stem)editContext.Model);
+            if (response)
+            {
+                NavManager.NavigateTo("/stems");
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+        ShowErrorMessage();
+    }
+
+    private void ShowErrorMessage()
+    {
+        HideErrorMessage = false;
+    }
+}

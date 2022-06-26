@@ -1,0 +1,79 @@
+﻿@page "/derailleurs/edit/{Id}"
+@using BikeFitter.Api.Models
+@using BikeFitter.Web.Services
+@inject DerailleurService DerailleurService
+@inject NavigationManager NavManager
+
+<h3>Edit derailleur</h3>
+
+<EditForm Model="@derailleur" OnValidSubmit="@HandleValidSubmit">
+    <div class="mb-3">
+        <label>
+            Derailleur name
+            <InputText class="form-control" @bind-Value="derailleur.Name"></InputText>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Derailleur price
+            <InputNumber class="form-control" @bind-Value="derailleur.Price"></InputNumber>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Uri
+            <InputText class="form-control" @bind-Value="derailleur.Uri"></InputText>
+        </label>
+    </div>
+    <div class="alert alert-danger" role="alert" hidden="@HideErrorMessage">
+        Edit failed :(
+    </div>
+    <button type="submit" class="btn btn-primary">Edit</button>
+    <a class="btn btn-light" href="/derailleurs">Back</a>
+
+</EditForm>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    private Derailleur derailleur = new Derailleur();
+    private bool HideErrorMessage { get; set; } = true;
+    private bool getDerailleurError;
+
+    private async void HandleValidSubmit(EditContext editContext)
+    {
+        try
+        {
+            var response = await DerailleurService.EditDerailleur((Derailleur)editContext.Model);
+
+            if (response)
+            {
+                NavManager.NavigateTo("/derailleurs");
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
+
+        ShowErrorMessage();
+    }
+
+    private void ShowErrorMessage()
+    {
+        HideErrorMessage = false;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await DerailleurService.GetDerailleur(int.Parse(Id));
+            derailleur = response;
+        }
+        catch (Exception e)
+        {
+            getDerailleurError = true;
+        }
+    }
+}

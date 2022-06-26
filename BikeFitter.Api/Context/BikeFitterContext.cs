@@ -30,7 +30,7 @@ namespace BikeFitter.Api.Context
             modelBuilder.Entity<Derailleur>().ToTable("Derailleur");
             modelBuilder.Entity<Fork>().ToTable("Fork");
             modelBuilder.Entity<Brake>().ToTable("Brake");
-            modelBuilder.Entity<Manufacturer>().ToTable("Course");
+            modelBuilder.Entity<Manufacturer>().ToTable("Manufacturer");
             modelBuilder.Entity<Rim>().ToTable("Rim");
             modelBuilder.Entity<Shifter>().ToTable("Shifter");
             modelBuilder.Entity<Stem>().ToTable("Stem");

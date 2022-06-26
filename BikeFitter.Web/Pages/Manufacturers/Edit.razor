@@ -1,0 +1,67 @@
+﻿@page "/manufacturers/edit/{Id}"
+@using BikeFitter.Api.Models
+@using BikeFitter.Web.Services
+@inject ManufacturerService ManufacturerService
+@inject NavigationManager NavManager
+
+<h3>Edit manufacturer</h3>
+
+<EditForm Model="@manufacturer" OnValidSubmit="@HandleValidSubmit">
+    <div class="mb-3">
+        <label>
+            Manufacturer name
+            <InputText class="form-control" @bind-Value="manufacturer.Name"></InputText>
+        </label>
+    </div>
+    <div class="alert alert-danger" role="alert" hidden="@HideErrorMessage">
+        Edit failed :(
+    </div>
+    <button type="submit" class="btn btn-primary">Edit</button>
+    <a class="btn btn-light" href="/manufacturers">Back</a>
+
+</EditForm>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    private Manufacturer manufacturer = new Manufacturer();
+    private bool HideErrorMessage { get; set; } = true;
+    private bool getManufacturerError;
+
+    private async void HandleValidSubmit(EditContext editContext)
+    {
+        try
+        {
+            var response = await ManufacturerService.EditManufacturer((Manufacturer)editContext.Model);
+
+            if (response)
+            {
+                NavManager.NavigateTo("/manufacturers");
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
+
+        ShowErrorMessage();
+    }
+
+    private void ShowErrorMessage()
+    {
+        HideErrorMessage = false;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await ManufacturerService.GetManufacturer(int.Parse(Id));
+            manufacturer = response;
+        }
+        catch (Exception e)
+        {
+            getManufacturerError = true;
+        }
+    }
+}

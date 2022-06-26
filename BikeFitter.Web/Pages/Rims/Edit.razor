@@ -1,0 +1,79 @@
+﻿@page "/rims/edit/{Id}"
+@using BikeFitter.Api.Models
+@using BikeFitter.Web.Services
+@inject RimService RimService
+@inject NavigationManager NavManager
+
+<h3>Edit rim</h3>
+
+<EditForm Model="@rim" OnValidSubmit="@HandleValidSubmit">
+    <div class="mb-3">
+        <label>
+            Rim name
+            <InputText class="form-control" @bind-Value="rim.Name"></InputText>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Rim price
+            <InputNumber class="form-control" @bind-Value="rim.Price"></InputNumber>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Uri
+            <InputText class="form-control" @bind-Value="rim.Uri"></InputText>
+        </label>
+    </div>
+    <div class="alert alert-danger" role="alert" hidden="@HideErrorMessage">
+        Edit failed :(
+    </div>
+    <button type="submit" class="btn btn-primary">Edit</button>
+    <a class="btn btn-light" href="/rims">Back</a>
+
+</EditForm>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    private Rim rim = new Rim();
+    private bool HideErrorMessage { get; set; } = true;
+    private bool getRimError;
+
+    private async void HandleValidSubmit(EditContext editContext)
+    {
+        try
+        {
+            var response = await RimService.EditRim((Rim)editContext.Model);
+
+            if (response)
+            {
+                NavManager.NavigateTo("/rims");
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
+
+        ShowErrorMessage();
+    }
+
+    private void ShowErrorMessage()
+    {
+        HideErrorMessage = false;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await RimService.GetRim(int.Parse(Id));
+            rim = response;
+        }
+        catch (Exception e)
+        {
+            getRimError = true;
+        }
+    }
+}

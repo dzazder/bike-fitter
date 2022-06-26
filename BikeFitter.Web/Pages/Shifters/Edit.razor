@@ -1,0 +1,79 @@
+﻿@page "/shifters/edit/{Id}"
+@using BikeFitter.Api.Models
+@using BikeFitter.Web.Services
+@inject ShifterService ShifterService
+@inject NavigationManager NavManager
+
+<h3>Edit shifter</h3>
+
+<EditForm Model="@shifter" OnValidSubmit="@HandleValidSubmit">
+    <div class="mb-3">
+        <label>
+            Shifter name
+            <InputText class="form-control" @bind-Value="shifter.Name"></InputText>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Shifter price
+            <InputNumber class="form-control" @bind-Value="shifter.Price"></InputNumber>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Uri
+            <InputText class="form-control" @bind-Value="shifter.Uri"></InputText>
+        </label>
+    </div>
+    <div class="alert alert-danger" role="alert" hidden="@HideErrorMessage">
+        Edit failed :(
+    </div>
+    <button type="submit" class="btn btn-primary">Edit</button>
+    <a class="btn btn-light" href="/shifters">Back</a>
+
+</EditForm>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    private Shifter shifter = new Shifter();
+    private bool HideErrorMessage { get; set; } = true;
+    private bool getShifterError;
+
+    private async void HandleValidSubmit(EditContext editContext)
+    {
+        try
+        {
+            var response = await ShifterService.EditShifter((Shifter)editContext.Model);
+
+            if (response)
+            {
+                NavManager.NavigateTo("/shifters");
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
+
+        ShowErrorMessage();
+    }
+
+    private void ShowErrorMessage()
+    {
+        HideErrorMessage = false;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await ShifterService.GetShifter(int.Parse(Id));
+            shifter = response;
+        }
+        catch (Exception e)
+        {
+            getShifterError = true;
+        }
+    }
+}

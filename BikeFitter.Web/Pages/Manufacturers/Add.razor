@@ -1,0 +1,50 @@
+﻿@page "/manufacturers/add"
+@using BikeFitter.Api.Models
+@using BikeFitter.Web.Services
+@inject ManufacturerService ManufacturerService
+@inject NavigationManager NavManager
+
+<h3>Add a manufacturer</h3>
+
+<EditForm Model="@manufacturer" OnValidSubmit="@HandleValidSubmit">
+    <div class="mb-3">
+        <label>
+            Manufacturer name
+            <InputText class="form-control" @bind-Value="manufacturer.Name"></InputText>
+        </label>
+    </div>
+    <div class="alert alert-danger" role="alert" hidden="@HideErrorMessage">
+        Adding failed :(
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+    <a class="btn btn-light" href="/manufacturers">Back</a>
+
+</EditForm>
+
+@code {
+    private Manufacturer manufacturer = new Manufacturer();
+    private bool HideErrorMessage { get; set; } = true;
+
+    private async void HandleValidSubmit(EditContext editContext)
+    {
+        try
+        {
+            var response = await ManufacturerService.AddManufacturer((Manufacturer)editContext.Model);
+            if (response)
+            {
+                NavManager.NavigateTo("/manufacturers");
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+        ShowErrorMessage();
+    }
+
+    private void ShowErrorMessage()
+    {
+        HideErrorMessage = false;
+    }
+}

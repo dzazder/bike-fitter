@@ -1,0 +1,62 @@
+﻿@page "/forks/add"
+@using BikeFitter.Api.Models
+@using BikeFitter.Web.Services
+@inject ForkService ForkService
+@inject NavigationManager NavManager
+
+<h3>Add a fork</h3>
+
+<EditForm Model="@fork" OnValidSubmit="@HandleValidSubmit">
+    <div class="mb-3">
+        <label>
+            Fork name
+            <InputText class="form-control" @bind-Value="fork.Name"></InputText>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Fork price
+            <InputNumber class="form-control" @bind-Value="fork.Price"></InputNumber>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Uri
+            <InputText class="form-control" @bind-Value="fork.Uri"></InputText>
+        </label>
+    </div>
+    <div class="alert alert-danger" role="alert" hidden="@HideErrorMessage">
+        Adding failed :(
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+    <a class="btn btn-light" href="/forks">Back</a>
+
+</EditForm>
+
+@code {
+    private Fork fork = new Fork();
+    private bool HideErrorMessage { get; set; } = true;
+
+    private async void HandleValidSubmit(EditContext editContext)
+    {
+        try
+        {
+            var response = await ForkService.AddFork((Fork)editContext.Model);
+            if (response)
+            {
+                NavManager.NavigateTo("/forks");
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+        ShowErrorMessage();
+    }
+
+    private void ShowErrorMessage()
+    {
+        HideErrorMessage = false;
+    }
+}

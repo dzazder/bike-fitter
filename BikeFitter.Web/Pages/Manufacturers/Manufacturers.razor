@@ -1,0 +1,81 @@
+﻿@page "/manufacturers"
+@using BikeFitter.Api.Models
+@using BikeFitter.Web.Services
+@inject ManufacturerService ManufacturerService
+@inject NavigationManager NavManager
+
+<h3>Manufacturers</h3>
+
+@if (!shouldRender || getListError)
+{
+    <p>Unable to get manufacturers from Api. Please try again later.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var b in manufacturers)
+            {
+                <tr>
+                    <td>@b.Id</td>
+                    <td>@b.Name</td>
+                    <td>
+                        <a class="btn btn-primary" href="/manufacturers/edit/@b.Id">Edit</a>
+                        <button class="btn btn-danger" @onclick="() => Delete(b.Id)">Delete</button>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="alert alert-danger" role="alert" hidden="@HideDeleteErrorMessage">
+        Deleting failed :(
+    </div>
+
+    <a href="/manufacturers/add" role="button" class="btn btn-primary">Add new</a>
+}
+
+@code {
+    private IEnumerable<Manufacturer> manufacturers = Array.Empty<Manufacturer>();
+    private bool getListError;
+    private bool HideDeleteErrorMessage = true;
+    private bool shouldRender = false;
+
+    protected override bool ShouldRender() => shouldRender;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            manufacturers = await ManufacturerService.GetManufacturers();
+        }
+        catch (Exception ex)
+        {
+            getListError = true;
+        }
+
+        shouldRender = true;
+    }
+
+    private async void Delete(int id)
+    {
+        try
+        {
+            await ManufacturerService.DeleteManufacturer(id);
+            NavManager.NavigateTo(NavManager.Uri, true);
+        }
+        catch (Exception ex)
+        {
+            HideDeleteErrorMessage = false;
+        }
+    }
+}
+

@@ -1,0 +1,79 @@
+﻿@page "/tires/edit/{Id}"
+@using BikeFitter.Api.Models
+@using BikeFitter.Web.Services
+@inject TireService TireService
+@inject NavigationManager NavManager
+
+<h3>Edit tire</h3>
+
+<EditForm Model="@tire" OnValidSubmit="@HandleValidSubmit">
+    <div class="mb-3">
+        <label>
+            Tire name
+            <InputText class="form-control" @bind-Value="tire.Name"></InputText>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Tire price
+            <InputNumber class="form-control" @bind-Value="tire.Price"></InputNumber>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Uri
+            <InputText class="form-control" @bind-Value="tire.Uri"></InputText>
+        </label>
+    </div>
+    <div class="alert alert-danger" role="alert" hidden="@HideErrorMessage">
+        Edit failed :(
+    </div>
+    <button type="submit" class="btn btn-primary">Edit</button>
+    <a class="btn btn-light" href="/tires">Back</a>
+
+</EditForm>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    private Tire tire = new Tire();
+    private bool HideErrorMessage { get; set; } = true;
+    private bool getTireError;
+
+    private async void HandleValidSubmit(EditContext editContext)
+    {
+        try
+        {
+            var response = await TireService.EditTire((Tire)editContext.Model);
+
+            if (response)
+            {
+                NavManager.NavigateTo("/tires");
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
+
+        ShowErrorMessage();
+    }
+
+    private void ShowErrorMessage()
+    {
+        HideErrorMessage = false;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await TireService.GetTire(int.Parse(Id));
+            tire = response;
+        }
+        catch (Exception e)
+        {
+            getTireError = true;
+        }
+    }
+}

@@ -3,6 +3,7 @@ using BikeFitter.Api.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BikeFitter.Api.Migrations
 {
     [DbContext(typeof(BikeFitterContext))]
-    partial class BikeFitterContextModelSnapshot : ModelSnapshot
+    [Migration("20220626093535_RenameManufacturerTable")]
+    partial class RenameManufacturerTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

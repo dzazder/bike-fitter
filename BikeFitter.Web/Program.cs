@@ -16,6 +16,13 @@ builder.Services.AddSingleton<Routes>();
 builder.Services.AddSingleton<BrakeService>();
 builder.Services.AddSingleton<CassetteService>();
 builder.Services.AddSingleton<CranksetService>();
+builder.Services.AddSingleton<ForkService>();
+builder.Services.AddSingleton<DerailleurService>();
+builder.Services.AddSingleton<ManufacturerService>();
+builder.Services.AddSingleton<RimService>();
+builder.Services.AddSingleton<ShifterService>();
+builder.Services.AddSingleton<StemService>();
+builder.Services.AddSingleton<TireService>();
 
 var app = builder.Build();
 

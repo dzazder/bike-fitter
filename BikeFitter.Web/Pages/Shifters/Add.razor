@@ -1,0 +1,62 @@
+﻿@page "/shifters/add"
+@using BikeFitter.Api.Models
+@using BikeFitter.Web.Services
+@inject ShifterService ShifterService
+@inject NavigationManager NavManager
+
+<h3>Add a shifter</h3>
+
+<EditForm Model="@shifter" OnValidSubmit="@HandleValidSubmit">
+    <div class="mb-3">
+        <label>
+            Shifter name
+            <InputText class="form-control" @bind-Value="shifter.Name"></InputText>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Shifter price
+            <InputNumber class="form-control" @bind-Value="shifter.Price"></InputNumber>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Uri
+            <InputText class="form-control" @bind-Value="shifter.Uri"></InputText>
+        </label>
+    </div>
+    <div class="alert alert-danger" role="alert" hidden="@HideErrorMessage">
+        Adding failed :(
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+    <a class="btn btn-light" href="/shifters">Back</a>
+
+</EditForm>
+
+@code {
+    private Shifter shifter = new Shifter();
+    private bool HideErrorMessage { get; set; } = true;
+
+    private async void HandleValidSubmit(EditContext editContext)
+    {
+        try
+        {
+            var response = await ShifterService.AddShifter((Shifter)editContext.Model);
+            if (response)
+            {
+                NavManager.NavigateTo("/shifters");
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+        ShowErrorMessage();
+    }
+
+    private void ShowErrorMessage()
+    {
+        HideErrorMessage = false;
+    }
+}
