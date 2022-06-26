@@ -1,0 +1,85 @@
+﻿@page "/cranksets"
+@using BikeFitter.Api.Models
+@using BikeFitter.Web.Services
+@inject CranksetService CranksetService
+@inject NavigationManager NavManager
+
+<h3>Cranksets</h3>
+
+@if (!shouldRender || getListError)
+{
+    <p>Unable to get cranksets from Api. Please try again later.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Url</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var b in cranksets)
+            {
+                <tr>
+                    <td>@b.Id</td>
+                    <td>@b.Name</td>
+                    <td>@b.Price</td>
+                    <td>@b.Uri</td>
+                    <td>
+                        <a class="btn btn-primary" href="/cranksets/edit/@b.Id">Edit</a>
+                        <button class="btn btn-danger" @onclick="() => Delete(b.Id)">Delete</button>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="alert alert-danger" role="alert" hidden="@HideDeleteErrorMessage">
+        Deleting failed :(
+    </div>
+
+    <a href="/cranksets/add" role="button" class="btn btn-primary">Add new</a>
+}
+
+@code {
+    private IEnumerable<Crankset> cranksets = Array.Empty<Crankset>();
+    private bool getListError;
+    private bool HideDeleteErrorMessage = true;
+    private bool shouldRender = false;
+
+    protected override bool ShouldRender() => shouldRender;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            cranksets = await CranksetService.GetCranksets();
+        }
+        catch (Exception ex)
+        {
+            getListError = true;
+        }
+
+        shouldRender = true;
+    }
+
+    private async void Delete(int id)
+    {
+        try
+        {
+            await CranksetService.DeleteCrankset(id);
+            NavManager.NavigateTo(NavManager.Uri, true);
+        }
+        catch (Exception ex)
+        {
+            HideDeleteErrorMessage = false;
+        }
+    }
+}
+

@@ -1,0 +1,62 @@
+﻿@page "/cranksets/add"
+@using BikeFitter.Api.Models
+@using BikeFitter.Web.Services
+@inject CranksetService CranksetService
+@inject NavigationManager NavManager
+
+<h3>Add a crankset</h3>
+
+<EditForm Model="@crankset" OnValidSubmit="@HandleValidSubmit">
+    <div class="mb-3">
+        <label>
+            Crankset name
+            <InputText class="form-control" @bind-Value="crankset.Name"></InputText>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Crankset price
+            <InputNumber class="form-control" @bind-Value="crankset.Price"></InputNumber>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Uri
+            <InputText class="form-control" @bind-Value="crankset.Uri"></InputText>
+        </label>
+    </div>
+    <div class="alert alert-danger" role="alert" hidden="@HideErrorMessage">
+        Adding failed :(
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+    <a class="btn btn-light" href="/cranksets">Back</a>
+
+</EditForm>
+
+@code {
+    private Crankset crankset = new Crankset();
+    private bool HideErrorMessage { get; set; } = true;
+
+    private async void HandleValidSubmit(EditContext editContext)
+    {
+        try
+        {
+            var response = await CranksetService.AddCrankset((Crankset)editContext.Model);
+            if (response)
+            {
+                NavManager.NavigateTo("/cranksets");
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+        ShowErrorMessage();
+    }
+
+    private void ShowErrorMessage()
+    {
+        HideErrorMessage = false;
+    }
+}

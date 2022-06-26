@@ -14,6 +14,8 @@ builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddSingleton<RequestService>();
 builder.Services.AddSingleton<Routes>();
 builder.Services.AddSingleton<BrakeService>();
+builder.Services.AddSingleton<CassetteService>();
+builder.Services.AddSingleton<CranksetService>();
 
 var app = builder.Build();
 

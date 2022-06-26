@@ -1,0 +1,79 @@
+﻿@page "/cassettes/edit/{Id}"
+@using BikeFitter.Api.Models
+@using BikeFitter.Web.Services
+@inject CassetteService CassetteService
+@inject NavigationManager NavManager
+
+<h3>Edit cassette</h3>
+
+<EditForm Model="@cassette" OnValidSubmit="@HandleValidSubmit">
+    <div class="mb-3">
+        <label>
+            Cassette name
+            <InputText class="form-control" @bind-Value="cassette.Name"></InputText>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Cassette price
+            <InputNumber class="form-control" @bind-Value="cassette.Price"></InputNumber>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Uri
+            <InputText class="form-control" @bind-Value="cassette.Uri"></InputText>
+        </label>
+    </div>
+    <div class="alert alert-danger" role="alert" hidden="@HideErrorMessage">
+        Edit failed :(
+    </div>
+    <button type="submit" class="btn btn-primary">Edit</button>
+    <a class="btn btn-light" href="/cassettes">Back</a>
+
+</EditForm>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    private Cassette cassette = new Cassette();
+    private bool HideErrorMessage { get; set; } = true;
+    private bool getCassetteError;
+
+    private async void HandleValidSubmit(EditContext editContext)
+    {
+        try
+        {
+            var response = await CassetteService.EditCassette((Cassette)editContext.Model);
+
+            if (response)
+            {
+                NavManager.NavigateTo("/cassettes");
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
+
+        ShowErrorMessage();
+    }
+
+    private void ShowErrorMessage()
+    {
+        HideErrorMessage = false;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await CassetteService.GetCassette(int.Parse(Id));
+            cassette = response;
+        }
+        catch (Exception e)
+        {
+            getCassetteError = true;
+        }
+    }
+}

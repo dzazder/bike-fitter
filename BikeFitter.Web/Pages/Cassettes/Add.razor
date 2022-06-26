@@ -1,0 +1,62 @@
+﻿@page "/cassettes/add"
+@using BikeFitter.Api.Models
+@using BikeFitter.Web.Services
+@inject CassetteService CassetteService
+@inject NavigationManager NavManager
+
+<h3>Add a cassette</h3>
+
+<EditForm Model="@cassette" OnValidSubmit="@HandleValidSubmit">
+    <div class="mb-3">
+        <label>
+            Cassette name
+            <InputText class="form-control" @bind-Value="cassette.Name"></InputText>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Cassette price
+            <InputNumber class="form-control" @bind-Value="cassette.Price"></InputNumber>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label>
+            Uri
+            <InputText class="form-control" @bind-Value="cassette.Uri"></InputText>
+        </label>
+    </div>
+    <div class="alert alert-danger" role="alert" hidden="@HideErrorMessage">
+        Adding failed :(
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+    <a class="btn btn-light" href="/cassettes">Back</a>
+
+</EditForm>
+
+@code {
+    private Cassette cassette = new Cassette();
+    private bool HideErrorMessage { get; set; } = true;
+
+    private async void HandleValidSubmit(EditContext editContext)
+    {
+        try
+        {
+            var response = await CassetteService.AddCassette((Cassette)editContext.Model);
+            if (response)
+            {
+                NavManager.NavigateTo("/cassettes");
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+        ShowErrorMessage();
+    }
+
+    private void ShowErrorMessage()
+    {
+        HideErrorMessage = false;
+    }
+}
