@@ -21,6 +21,7 @@ builder.Services.AddSingleton<RimService>();
 builder.Services.AddSingleton<ShifterService>();
 builder.Services.AddSingleton<StemService>();
 builder.Services.AddSingleton<TireService>();
+builder.Services.AddSingleton<BikeService>();
 
 var app = builder.Build();
 

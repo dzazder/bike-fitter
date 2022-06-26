@@ -2,6 +2,9 @@
 {
     public class Routes
     {
+        public static string Bikes = "bikes";
+        public static string BikesParam(int p) => $"{Bikes}/{p}";
+
         public static string Brakes = "brakes";
         public static string BrakesParam(int p) => $"{Brakes}/{p}";
 

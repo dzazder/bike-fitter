@@ -126,25 +126,34 @@ namespace BikeFitter.Api.Controllers
 
         private Bike CreateBike(ApiModel.ApiBike apiBike)
         {
-            Bike bike = new Bike
+            try
             {
-                ModelName = apiBike.ModelName,
-                Price = apiBike.Price,
-                Uri = apiBike.Uri,
-                Weight = apiBike.Weight,
-                Brakes = _context.Brakes.FirstOrDefault(x => x.Id == apiBike.BrakesId),
-                Cassette = _context.Cassettes.FirstOrDefault(x => x.Id == apiBike.CassetteId),
-                Derailleur = _context.Derailleurs.FirstOrDefault(x => x.Id == apiBike.DerailleurId),
-                Crankset = _context.Cranksets.FirstOrDefault(x => x.Id == apiBike.CranksetId),
-                Fork = _context.Forks.FirstOrDefault(x => x.Id == apiBike.ForkId),
-                Manufacturer = _context.Manufacturers.FirstOrDefault(x => x.Id == apiBike.ManufacturerId),
-                Rims = _context.Rims.FirstOrDefault(x => x.Id == apiBike.RimsId),
-                Shifter = _context.Shifters.FirstOrDefault(x => x.Id == apiBike.ShifterId),
-                Stem = _context.Stems.FirstOrDefault(x => x.Id == apiBike.StemId),
-                Tires = _context.Tires.FirstOrDefault(x => x.Id == apiBike.TiresId)
-            };
+                Bike bike = new Bike
+                {
+                    ModelName = apiBike.ModelName,
+                    Price = apiBike.Price,
+                    Uri = apiBike.Uri,
+                    Weight = apiBike.Weight,
+                    Brakes = _context.Brakes.FirstOrDefault(x => x.Id == apiBike.BrakesId),
+                    Cassette = _context.Cassettes.FirstOrDefault(x => x.Id == apiBike.CassetteId),
+                    Derailleur = _context.Derailleurs.FirstOrDefault(x => x.Id == apiBike.DerailleurId),
+                    Crankset = _context.Cranksets.FirstOrDefault(x => x.Id == apiBike.CranksetId),
+                    Fork = _context.Forks.FirstOrDefault(x => x.Id == apiBike.ForkId),
+                    Manufacturer = _context.Manufacturers.FirstOrDefault(x => x.Id == apiBike.ManufacturerId),
+                    Rims = _context.Rims.FirstOrDefault(x => x.Id == apiBike.RimsId),
+                    Shifter = _context.Shifters.FirstOrDefault(x => x.Id == apiBike.ShifterId),
+                    Stem = _context.Stems.FirstOrDefault(x => x.Id == apiBike.StemId),
+                    Tires = _context.Tires.FirstOrDefault(x => x.Id == apiBike.TiresId)
+                };
 
-            return bike;
+                return bike;
+            }
+            catch (Exception)
+            {
+                
+            }
+
+            return null;
         }
     }
 }

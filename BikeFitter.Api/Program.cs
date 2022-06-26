@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<BikeFitterContext>(options =>
-  options.UseSqlServer(builder.Configuration.GetConnectionString("BikeFitterConnStr")));
+  options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("BikeFitterConnStr")));
 
 var app = builder.Build();
 
