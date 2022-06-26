@@ -1,9 +1,9 @@
-﻿namespace BikeFitter.Api.Models
+﻿namespace BikeFitter.Models.Models
 {
     /// <summary>
-    /// Manetka przerzutki
+    /// Widelec
     /// </summary>
-    public class Shifter
+    public class Fork
     {
         public int Id { get; set; }
         public string Name { get; set; }

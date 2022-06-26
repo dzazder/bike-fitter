@@ -1,9 +1,9 @@
-﻿namespace BikeFitter.Api.Models
+﻿namespace BikeFitter.Models.Models
 {
     /// <summary>
-    /// Opony
+    /// Manetka przerzutki
     /// </summary>
-    public class Tire
+    public class Shifter
     {
         public int Id { get; set; }
         public string Name { get; set; }

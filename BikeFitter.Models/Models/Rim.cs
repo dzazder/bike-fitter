@@ -1,13 +1,13 @@
-﻿namespace BikeFitter.Api.Models
+﻿using System.Text.RegularExpressions;
+
+namespace BikeFitter.Models.Models
 {
-    /// <summary>
-    /// Korba
-    /// </summary>
-    public class Crankset
+    public class Rim
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
         public string? Uri { get; set; }
+
     }
 }

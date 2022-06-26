@@ -1,4 +1,4 @@
-﻿namespace BikeFitter.Api.Models
+﻿namespace BikeFitter.Models.Models
 {
     public class Manufacturer
     {

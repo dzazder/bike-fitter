@@ -1,9 +1,9 @@
-﻿namespace BikeFitter.Api.Models
+﻿namespace BikeFitter.Models.Models
 {
     /// <summary>
-    /// Kaseta
+    /// Opony
     /// </summary>
-    public class Cassette
+    public class Tire
     {
         public int Id { get; set; }
         public string Name { get; set; }

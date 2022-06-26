@@ -1,9 +1,9 @@
-﻿namespace BikeFitter.Api.Models
+﻿namespace BikeFitter.Models.Models
 {
     /// <summary>
-    /// Widelec
+    /// Kaseta
     /// </summary>
-    public class Fork
+    public class Cassette
     {
         public int Id { get; set; }
         public string Name { get; set; }

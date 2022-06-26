@@ -1,13 +1,13 @@
-﻿using System.Text.RegularExpressions;
-
-namespace BikeFitter.Api.Models
+﻿namespace BikeFitter.Models.Models
 {
-    public class Rim
+    /// <summary>
+    /// Mostek
+    /// </summary>
+    public class Stem
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
         public string? Uri { get; set; }
-
     }
 }

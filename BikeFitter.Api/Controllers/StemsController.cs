@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BikeFitter.Api.Context;
-using BikeFitter.Api.Models;
+using BikeFitter.Models.Models;
 
 namespace BikeFitter.Api.Controllers
 {

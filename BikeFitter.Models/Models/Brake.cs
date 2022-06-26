@@ -1,9 +1,6 @@
-﻿namespace BikeFitter.Api.Models
+﻿namespace BikeFitter.Models.Models
 {
-    /// <summary>
-    /// Mostek
-    /// </summary>
-    public class Stem
+    public class Brake
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -1,4 +1,4 @@
-﻿using BikeFitter.Api.Models;
+﻿using BikeFitter.Models.Models;
 using BikeFitter.Web.Pages.Brakes;
 using Newtonsoft.Json;
 using System.Net.Http;

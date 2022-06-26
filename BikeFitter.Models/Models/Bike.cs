@@ -1,7 +1,7 @@
-﻿using BikeFitter.Api.ApiModel;
+﻿using BikeFitter.Models.ApiModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BikeFitter.Api.Models
+namespace BikeFitter.Models.Models
 {
     public class Bike
     {

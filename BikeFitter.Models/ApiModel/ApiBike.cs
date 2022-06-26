@@ -1,6 +1,6 @@
-﻿using BikeFitter.Api.Models;
+﻿using BikeFitter.Models.Models;
 
-namespace BikeFitter.Api.ApiModel
+namespace BikeFitter.Models.ApiModel
 {
     public class ApiBike
     {

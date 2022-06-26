@@ -1,4 +1,4 @@
-﻿using BikeFitter.Api.Models;
+﻿using BikeFitter.Models.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BikeFitter.Api.Context

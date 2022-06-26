@@ -1,5 +1,5 @@
-﻿using BikeFitter.Api.ApiModel;
-using BikeFitter.Api.Models;
+﻿using BikeFitter.Models.ApiModel;
+using BikeFitter.Models.Models;
 using BikeFitter.Web.Routing;
 using Newtonsoft.Json;
 

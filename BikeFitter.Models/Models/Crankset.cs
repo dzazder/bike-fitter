@@ -1,6 +1,9 @@
-﻿namespace BikeFitter.Api.Models
+﻿namespace BikeFitter.Models.Models
 {
-    public class Brake
+    /// <summary>
+    /// Korba
+    /// </summary>
+    public class Crankset
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BikeFitter.Api.Context;
-using BikeFitter.Api.Models;
-using BikeFitter.Api.ApiModel;
+using BikeFitter.Models.Models;
+using BikeFitter.Models.ApiModel;
 
 namespace BikeFitter.Api.Controllers
 {
@@ -124,7 +124,7 @@ namespace BikeFitter.Api.Controllers
             return (_context.Bikes?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
-        private Bike CreateBike(ApiModel.ApiBike apiBike)
+        private Bike CreateBike(ApiBike apiBike)
         {
             try
             {
