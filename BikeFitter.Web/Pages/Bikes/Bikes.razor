@@ -20,7 +20,7 @@ else
                 <th scope="col">Name</th>
                 <th scope="col">Price</th>
                 <th scope="col">Weight</th>
-                <th scope="col">Url</th>
+                <th scope="col">Points</th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -33,7 +33,7 @@ else
                     <td>@b.ModelName</td>
                     <td>@b.Price</td>
                     <td>@b.Weight</td>
-                    <td>@b.Uri</td>
+                    <td>@b.SumPoints()</td>
                     <td>
                         <a class="btn btn-primary" href="/bikes/edit/@b.Id">Edit</a>
                         <button class="btn btn-danger" @onclick="() => Delete(b.Id)">Delete</button>

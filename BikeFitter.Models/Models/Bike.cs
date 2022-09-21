@@ -24,6 +24,11 @@ namespace BikeFitter.Models.Models
         public virtual Rim Rims { get; set; }
         public virtual Tire Tires { get; set; }
 
+        public decimal SumPoints()
+        {
+            return Cassette.Price + Crankset.Price + Derailleur.Price + Fork.Price + Shifter.Price + Stem.Price + Brakes.Price + Rims.Price + Tires.Price;
+        }
+
         public ApiBike GetApiBike()
         {
             try
